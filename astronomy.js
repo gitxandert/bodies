@@ -21,6 +21,9 @@ async function getPlanets(){
   console.log(todays_date);
   
   let hour=date.getHours();
+  if(hour<10){
+    hour=`0${hour}`;
+  }
   let minute=date.getMinutes();
   if(minute<10){
     minute=`0${minute}`;
@@ -60,13 +63,3 @@ async function getPlanets(){
 
   return planets;
 }
-
-
-async function list(){
-  await getPlanets();
-  console.log(planets);
-  const sunDist=planets['sun']['distance']['fromEarth']['au'];
-  console.group(sunDist);
-}
-
-list();
