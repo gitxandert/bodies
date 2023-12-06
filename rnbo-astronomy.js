@@ -1,5 +1,7 @@
 let device;
 
+let drawPlanets=false;
+
 let constellations = [
   'and', 'ant', 'aps', 'aqr', 'aql', 'ara', 'ari', 'aur', 'boo', 'cae', 'cam', 'cnc', 'cvn', 'cma', 'cmi', 'cap', 'car',
   'cas', 'cen', 'cep', 'cet', 'cha', 'cir', 'col', 'com', 'cra', 'crb', 'crv', 'crt', 'cru', 'cyg', 'del', 'dor', 'dra',
@@ -67,9 +69,17 @@ async function setup() {
   
   context.suspend();
   const start=document.querySelector('#start');
-  document.addEventListener('click', ()=>{
-      context.resume();
-      sonify(device);
+  start.addEventListener('click', ()=>{
+    const lat=document.getElementById('latitude');
+    const long=document.getElementById('longitude');
+    latitude=lat.value;
+    longitude=long.value;
+    console.log(latitude, longitude);
+    latitude=latitude.toString();
+    longitude=longitude.toString();
+    context.resume();
+    sonify(device);
+    drawPlanets=true;
   })
 
 }
@@ -78,6 +88,8 @@ async function sonify(device){
   await getPlanets();
 
   console.log(planets);
+
+  const date=new Date();
   
   const tuning = device.parametersById.get('constellations/constellation');
   const constell_gate = device.parametersById.get('constellations/constell_gate');
@@ -88,6 +100,7 @@ async function sonify(device){
 
   const earth_on=device.parametersById.get('earth/onoff');
   earth_on.value=1;
+
   console.log('earth on');
 
   const moon_phase=device.parametersById.get('moon/phase');
@@ -208,7 +221,6 @@ async function sonify(device){
       console.log('venus off')
   }
 
-  const date=new Date();
   const sun_month=device.parametersById.get('sun/month');
   sun_month.value=date.getMonth() + 1;
   console.log(sun_month.value);
@@ -467,6 +479,335 @@ async function sonify(device){
       console.log('pluto off')
   }
 
+  makeSliders(device);
+
+}
+
+function makeSliders(){
+  let sliders=document.getElementById('sliders');
+  let isDragging=false;
+
+  const earth_on=device.parametersById.get('earth/onoff');
+  if(earth_on.value=1){
+    const earth_gain=device.parametersById.get('earth/gain');
+    let e_gain_slider=document.createElement('input');
+    let e_gain_label=document.createElement('label');
+    e_gain_slider.setAttribute('type', 'range');
+    e_gain_slider.setAttribute('id', 'earth gain');
+    e_gain_slider.setAttribute('min', earth_gain.min);
+    e_gain_slider.setAttribute('max', earth_gain.max);
+    e_gain_slider.setAttribute('value', earth_gain.value);
+    e_gain_slider.setAttribute('step', (earth_gain.max-earth_gain.min)/100);
+    e_gain_slider.addEventListener("pointerdown", () => {
+      isDragging = true;
+    });
+    e_gain_slider.addEventListener("pointerup", () => {
+      isDragging = false;
+      e_gain_slider.value = earth_gain.value;
+    });
+    e_gain_slider.addEventListener("input", () => {
+      let value = Number.parseFloat(e_gain_slider.value);
+      earth_gain.value = value;
+      console.log(earth_gain.value);
+    });
+    e_gain_label.setAttribute('for', 'earth gain');
+    e_gain_label.textContent= 'earth gain';
+    sliders.appendChild(e_gain_slider);
+    sliders.appendChild(e_gain_label);
+  }
+
+  const moon_on=device.parametersById.get('moon/onoff');
+  if(moon_on.value=1){
+    const moon_gain=device.parametersById.get('moon/altitude');
+    let moo_gain_slider=document.createElement('input');
+    let moo_gain_label=document.createElement('label');
+    moo_gain_slider.setAttribute('type', 'range');
+    moo_gain_slider.setAttribute('id', 'moon gain');
+    moo_gain_slider.setAttribute('min', moon_gain.min);
+    moo_gain_slider.setAttribute('max', moon_gain.max);
+    moo_gain_slider.setAttribute('value', moon_gain.value);
+    moo_gain_slider.setAttribute('step', (moon_gain.max-moon_gain.min)/100);
+    moo_gain_slider.addEventListener("pointerdown", () => {
+      isDragging = true;
+    });
+    moo_gain_slider.addEventListener("pointerup", () => {
+      isDragging = false;
+      moo_gain_slider.value = moon_gain.value;
+    });
+    moo_gain_slider.addEventListener("input", () => {
+      let value = Number.parseFloat(moo_gain_slider.value);
+      moon_gain.value = value;
+      console.log(moon_gain.value);
+    });
+    moo_gain_label.setAttribute('for', 'moon gain');
+    moo_gain_label.textContent= 'moon gain';
+    sliders.appendChild(moo_gain_slider);
+    sliders.appendChild(moo_gain_label);
+  }
+
+  const merc_on=device.parametersById.get('mercury/onoff');
+  if(merc_on.value=1){
+    const merc_gain=device.parametersById.get('mercury/altitude');
+    let merc_gain_slider=document.createElement('input');
+    let merc_gain_label=document.createElement('label');
+    merc_gain_slider.setAttribute('type', 'range');
+    merc_gain_slider.setAttribute('id', 'mercury gain');
+    merc_gain_slider.setAttribute('min', merc_gain.min);
+    merc_gain_slider.setAttribute('max', merc_gain.max);
+    merc_gain_slider.setAttribute('value', merc_gain.value);
+    merc_gain_slider.setAttribute('step', (merc_gain.max-merc_gain.min)/100);
+    merc_gain_slider.addEventListener("pointerdown", () => {
+      isDragging = true;
+    });
+    merc_gain_slider.addEventListener("pointerup", () => {
+      isDragging = false;
+      merc_gain_slider.value = merc_gain.value;
+    });
+    merc_gain_slider.addEventListener("input", () => {
+      let value = Number.parseFloat(merc_gain_slider.value);
+      merc_gain.value = value;
+      console.log(merc_gain.value);
+    });
+    merc_gain_label.setAttribute('for', 'mercury gain');
+    merc_gain_label.textContent= 'mercury gain';
+    sliders.appendChild(merc_gain_slider);
+    sliders.appendChild(merc_gain_label);
+  }
+
+  const mars_on=device.parametersById.get('mars/onoff');
+  if(mars_on.value=1){
+    const mars_gain=device.parametersById.get('mars/altitude');
+    let mars_gain_slider=document.createElement('input');
+    let mars_gain_label=document.createElement('label');
+    mars_gain_slider.setAttribute('type', 'range');
+    mars_gain_slider.setAttribute('id', 'mars gain');
+    mars_gain_slider.setAttribute('min', mars_gain.min);
+    mars_gain_slider.setAttribute('max', mars_gain.max);
+    mars_gain_slider.setAttribute('value', mars_gain.value);
+    mars_gain_slider.setAttribute('step', (mars_gain.max-mars_gain.min)/100);
+    mars_gain_slider.addEventListener("pointerdown", () => {
+      isDragging = true;
+    });
+    mars_gain_slider.addEventListener("pointerup", () => {
+      isDragging = false;
+      mars_gain_slider.value = mars_gain.value;
+    });
+    mars_gain_slider.addEventListener("input", () => {
+      let value = Number.parseFloat(mars_gain_slider.value);
+      mars_gain.value = value;
+      console.log(mars_gain.value);
+    });
+    mars_gain_label.setAttribute('for', 'mars gain');
+    mars_gain_label.textContent= 'mars gain';
+    sliders.appendChild(mars_gain_slider);
+    sliders.appendChild(mars_gain_label);
+
+    const inst_change= device.parametersById.get('mars/inst_change');
+
+  }
+
+  const sun_on=device.parametersById.get('sun/onoff');
+  if(sun_on.value=1){
+    const sun_gain=device.parametersById.get('sun/altitude');
+    let sun_gain_slider=document.createElement('input');
+    let sun_gain_label=document.createElement('label');
+    sun_gain_slider.setAttribute('type', 'range');
+    sun_gain_slider.setAttribute('id', 'sun gain');
+    sun_gain_slider.setAttribute('min', sun_gain.min);
+    sun_gain_slider.setAttribute('max', sun_gain.max);
+    sun_gain_slider.setAttribute('value', sun_gain.value);
+    sun_gain_slider.setAttribute('step', (sun_gain.max-sun_gain.min)/100);
+    sun_gain_slider.addEventListener("pointerdown", () => {
+      isDragging = true;
+    });
+    sun_gain_slider.addEventListener("pointerup", () => {
+      isDragging = false;
+      sun_gain_slider.value = sun_gain.value;
+    });
+    sun_gain_slider.addEventListener("input", () => {
+      let value = Number.parseFloat(sun_gain_slider.value);
+      sun_gain.value = value;
+      console.log(sun_gain.value);
+    });
+    sun_gain_label.setAttribute('for', 'sun gain');
+    sun_gain_label.textContent= 'sun gain';
+    sliders.appendChild(sun_gain_slider);
+    sliders.appendChild(sun_gain_label);
+  }
+
+  const venus_on=device.parametersById.get('venus/onoff');
+  if(venus_on.value=1){
+    const venus_gain=device.parametersById.get('venus/altitude');
+    let venus_gain_slider=document.createElement('input');
+    let venus_gain_label=document.createElement('label');
+    venus_gain_slider.setAttribute('type', 'range');
+    venus_gain_slider.setAttribute('id', 'venus gain');
+    venus_gain_slider.setAttribute('min', venus_gain.min);
+    venus_gain_slider.setAttribute('max', venus_gain.max);
+    venus_gain_slider.setAttribute('value', venus_gain.value);
+    venus_gain_slider.setAttribute('step', (venus_gain.max-venus_gain.min)/100);
+    venus_gain_slider.addEventListener("pointerdown", () => {
+      isDragging = true;
+    });
+    venus_gain_slider.addEventListener("pointerup", () => {
+      isDragging = false;
+      venus_gain_slider.value = venus_gain.value;
+    });
+    venus_gain_slider.addEventListener("input", () => {
+      let value = Number.parseFloat(venus_gain_slider.value);
+      venus_gain.value = value;
+      console.log(venus_gain.value);
+    });
+    venus_gain_label.setAttribute('for', 'venus gain');
+    venus_gain_label.textContent= 'venus gain';
+    sliders.appendChild(venus_gain_slider);
+    sliders.appendChild(venus_gain_label);
+  }
+
+  const jupiter_on=device.parametersById.get('jupiter/onoff');
+  if(jupiter_on.value=1){
+    const jupiter_gain=device.parametersById.get('jupiter/altitude');
+    let jupiter_gain_slider=document.createElement('input');
+    let jupiter_gain_label=document.createElement('label');
+    jupiter_gain_slider.setAttribute('type', 'range');
+    jupiter_gain_slider.setAttribute('id', 'jupiter gain');
+    jupiter_gain_slider.setAttribute('min', jupiter_gain.min);
+    jupiter_gain_slider.setAttribute('max', jupiter_gain.max);
+    jupiter_gain_slider.setAttribute('value', jupiter_gain.value);
+    jupiter_gain_slider.setAttribute('step', (jupiter_gain.max-jupiter_gain.min)/100);
+    jupiter_gain_slider.addEventListener("pointerdown", () => {
+      isDragging = true;
+    });
+    jupiter_gain_slider.addEventListener("pointerup", () => {
+      isDragging = false;
+      jupiter_gain_slider.value = jupiter_gain.value;
+    });
+    jupiter_gain_slider.addEventListener("input", () => {
+      let value = Number.parseFloat(jupiter_gain_slider.value);
+      jupiter_gain.value = value;
+      console.log(jupiter_gain.value);
+    });
+    jupiter_gain_label.setAttribute('for', 'jupiter gain');
+    jupiter_gain_label.textContent= 'jupiter gain';
+    sliders.appendChild(jupiter_gain_slider);
+    sliders.appendChild(jupiter_gain_label);
+  }
+
+  const saturn_on=device.parametersById.get('saturn/onoff');
+  if(saturn_on.value=1){
+    const saturn_gain=device.parametersById.get('saturn/altitude');
+    let saturn_gain_slider=document.createElement('input');
+    let saturn_gain_label=document.createElement('label');
+    saturn_gain_slider.setAttribute('type', 'range');
+    saturn_gain_slider.setAttribute('id', 'saturn gain');
+    saturn_gain_slider.setAttribute('min', saturn_gain.min);
+    saturn_gain_slider.setAttribute('max', saturn_gain.max);
+    saturn_gain_slider.setAttribute('value', saturn_gain.value);
+    saturn_gain_slider.setAttribute('step', (saturn_gain.max-saturn_gain.min)/100);
+    saturn_gain_slider.addEventListener("pointerdown", () => {
+      isDragging = true;
+    });
+    saturn_gain_slider.addEventListener("pointerup", () => {
+      isDragging = false;
+      saturn_gain_slider.value = saturn_gain.value;
+    });
+    saturn_gain_slider.addEventListener("input", () => {
+      let value = Number.parseFloat(saturn_gain_slider.value);
+      saturn_gain.value = value;
+      console.log(saturn_gain.value);
+    });
+    saturn_gain_label.setAttribute('for', 'saturn gain');
+    saturn_gain_label.textContent= 'saturn gain';
+    sliders.appendChild(saturn_gain_slider);
+    sliders.appendChild(saturn_gain_label);
+  }
+
+  const uranus_on=device.parametersById.get('uranus/onoff');
+  if(uranus_on.value=1){
+    const uranus_gain=device.parametersById.get('uranus/altitude');
+    let uranus_gain_slider=document.createElement('input');
+    let uranus_gain_label=document.createElement('label');
+    uranus_gain_slider.setAttribute('type', 'range');
+    uranus_gain_slider.setAttribute('id', 'uranus gain');
+    uranus_gain_slider.setAttribute('min', uranus_gain.min);
+    uranus_gain_slider.setAttribute('max', uranus_gain.max);
+    uranus_gain_slider.setAttribute('value', uranus_gain.value);
+    uranus_gain_slider.setAttribute('step', (uranus_gain.max-uranus_gain.min)/100);
+    uranus_gain_slider.addEventListener("pointerdown", () => {
+      isDragging = true;
+    });
+    uranus_gain_slider.addEventListener("pointerup", () => {
+      isDragging = false;
+      uranus_gain_slider.value = uranus_gain.value;
+    });
+    uranus_gain_slider.addEventListener("input", () => {
+      let value = Number.parseFloat(uranus_gain_slider.value);
+      uranus_gain.value = value;
+      console.log(uranus_gain.value);
+    });
+    uranus_gain_label.setAttribute('for', 'uranus gain');
+    uranus_gain_label.textContent= 'uranus gain';
+    sliders.appendChild(uranus_gain_slider);
+    sliders.appendChild(uranus_gain_label);
+  }
+
+  const neptune_on=device.parametersById.get('neptune/onoff');
+  if(neptune_on.value=1){
+    const neptune_gain=device.parametersById.get('neptune/altitude');
+    let neptune_gain_slider=document.createElement('input');
+    let neptune_gain_label=document.createElement('label');
+    neptune_gain_slider.setAttribute('type', 'range');
+    neptune_gain_slider.setAttribute('id', 'neptune gain');
+    neptune_gain_slider.setAttribute('min', neptune_gain.min);
+    neptune_gain_slider.setAttribute('max', neptune_gain.max);
+    neptune_gain_slider.setAttribute('value', neptune_gain.value);
+    neptune_gain_slider.setAttribute('step', (neptune_gain.max-neptune_gain.min)/100);
+    neptune_gain_slider.addEventListener("pointerdown", () => {
+      isDragging = true;
+    });
+    neptune_gain_slider.addEventListener("pointerup", () => {
+      isDragging = false;
+      neptune_gain_slider.value = neptune_gain.value;
+    });
+    neptune_gain_slider.addEventListener("input", () => {
+      let value = Number.parseFloat(neptune_gain_slider.value);
+      neptune_gain.value = value;
+      console.log(neptune_gain.value);
+    });
+    neptune_gain_label.setAttribute('for', 'neptune gain');
+    neptune_gain_label.textContent= 'neptune gain';
+    sliders.appendChild(neptune_gain_slider);
+    sliders.appendChild(neptune_gain_label);
+  }
+
+  const pluto_on=device.parametersById.get('pluto/onoff');
+  if(pluto_on.value=1){
+    const pluto_gain=device.parametersById.get('pluto/altitude');
+    let pluto_gain_slider=document.createElement('input');
+    let pluto_gain_label=document.createElement('label');
+    pluto_gain_slider.setAttribute('type', 'range');
+    pluto_gain_slider.setAttribute('id', 'pluto gain');
+    pluto_gain_slider.setAttribute('min', pluto_gain.min);
+    pluto_gain_slider.setAttribute('max', pluto_gain.max);
+    pluto_gain_slider.setAttribute('value', pluto_gain.value);
+    pluto_gain_slider.setAttribute('step', (pluto_gain.max-pluto_gain.min)/100);
+    pluto_gain_slider.addEventListener("pointerdown", () => {
+      isDragging = true;
+    });
+    pluto_gain_slider.addEventListener("pointerup", () => {
+      isDragging = false;
+      pluto_gain_slider.value = pluto_gain.value;
+    });
+    pluto_gain_slider.addEventListener("input", () => {
+      let value = Number.parseFloat(pluto_gain_slider.value);
+      pluto_gain.value = value;
+      console.log(pluto_gain.value);
+    });
+    pluto_gain_label.setAttribute('for', 'pluto gain');
+    pluto_gain_label.textContent= 'pluto gain';
+    sliders.appendChild(pluto_gain_slider);
+    sliders.appendChild(pluto_gain_label);
+  }
 }
 
 setup();
