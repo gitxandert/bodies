@@ -5,9 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astronomy</title>
     <script type="text/javascript" src="https://cdn.cycling74.com/rnbo/latest/rnbo.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
 </head>
 <body>
+    <p id="greeting">Hi!</p>
+    <p id="explanation">
+            This website uses geographic location to obtain astronomical data
+        and to send this data into some instruments, which will change based on
+        visible planets and their traits.
+    </p>
+    <p id="petition">Please enter in a geographic location below to begin.</p>
+    <label for="latitude">Latitude</label>
+    <input id="latitude" type="text">
+    <label for="longitude">Longitude</label>
+    <input id="longitude" type="text">
     <button id="start">start</button>
+    <div id="sliders" style="display: flex; flex-direction: column;"></div>
     <script src="astronomy.js"></script>
     <script src="rnbo-astronomy.js"></script>
 </body>
