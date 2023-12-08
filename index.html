@@ -3,25 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astronomy</title>
+    <title>bodies</title>
+    <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'>
     <script type="text/javascript" src="https://cdn.cycling74.com/rnbo/latest/rnbo.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+    <style>
+
+        #greeting {
+            animation: appear 2s ease forwards;
+        }
+
+        #explanation {
+            animation: appear 2s ease 2s forwards;
+        }
+
+        #petition {
+            animation: appear 2s ease 7s forwards;
+        }
+
+        #coordinates {
+            animation: appear 2s ease 8s forwards;
+        }
+
+        @keyframes appear {
+            from{
+                opacity: 0;
+            }
+            to{
+                opacity: 1;
+            }
+        }
+
+        #fade {
+            animation: disappear 2s ease forwards;
+        }
+
+        @keyframes disappear {
+            from{
+                opacity: 1;
+            }
+            to{
+                opacity: 0;
+            }
+        }
+
+    </style>
 </head>
-<body>
-    <p id="greeting">Hi!</p>
-    <p id="explanation">
-            This website uses geographic location to obtain astronomical data
-        and to send this data into some instruments, which will change based on
-        visible planets and their traits.
-    </p>
-    <p id="petition">Please enter in a geographic location below to begin.</p>
-    <label for="latitude">Latitude</label>
-    <input id="latitude" type="text">
-    <label for="longitude">Longitude</label>
-    <input id="longitude" type="text">
-    <button id="start">start</button>
-    <div id="sliders" style="display: flex; flex-direction: column;"></div>
+<body style="margin : 0px; font-family: 'Manrope';">
+    <div id="container" style="color: white; letter-spacing: 5px; display: flex; flex-direction: column; position: absolute; margin: 50px; font-size: 24px;">
+        <p id="greeting" style="opacity: 0;">Hi!</p>
+        <p id="explanation" style="opacity: 0;">
+                This website uses geographic location to obtain astronomical data
+            and sends this data into some specially-designed instruments, which will change based on
+            visible planets and their traits.
+        </p>
+        <p id="petition" style="opacity: 0;">Please enter in a geographic location below to begin.</p>
+        <div id="coordinates" style="display: flex; flex-direction: column; opacity: 0;">
+            <label for="latitude" style="margin-bottom: 10px;">Latitude</label>
+            <input id="latitude" type="text" style="width: 100px; font-size: 18px; border-width: 1px; text-align: center; background-color: black; color: white; margin-bottom: 25px; border-color: white; border-radius: 8px;" autofocus>
+            <label for="longitude" style="margin-bottom: 10px;">Longitude</label>
+            <input id="longitude" type="text" style="width: 100px; font-size: 18px; border-width: 1px; text-align: center; background-color: black; color: white; margin-bottom: 25px; border-color: white; border-radius: 8px;">
+            <button id="start" style="width: 100px; background-color: black; font-size: 18px; color: white; border-width: 1px; margin-bottom: 25px; border-color: white; border-radius: 8px; letter-spacing: 5px;">start</button>
+        </div>
+    </div>
     <script src="astronomy.js"></script>
     <script src="rnbo-astronomy.js"></script>
+    <script src="planets.js"></script>
 </body>
 </html>
