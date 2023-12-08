@@ -238,7 +238,7 @@ class planet{
     fill(this.r, this.g, this.b);
     ellipse(this.x, this.y, this.w, this.w);
     fill(255, this.text_op);
-    textSize(20);
+    textSize(displayWidth/100);
     textAlign(CENTER);
     text(this.name, this.x, this.y+this.w);
     this.origin_w=this.w;
@@ -265,7 +265,7 @@ class planet{
     ellipse(this.x, this.y, this.w, this.w);
     if(this.w>dest_w-0.1){
       fill(255, this.text_op);
-      textSize(30);
+      textSize(displayWidth/85);
       textAlign(CENTER);
       text('r e t u r n', displayWidth/11, displayHeight/11);
       let sp=color(this.sp_f);
@@ -856,7 +856,7 @@ class Slider{
     sp.setAlpha(opa);
     fill(sp);
     stroke(sp);
-    textSize(20);
+    textSize(displayWidth/128);
     textAlign(RIGHT);
     text(this.name, displayWidth/2-25, this.position+5);
     line(this.min, this.position, this.max, this.position);
@@ -873,7 +873,7 @@ class Slider{
     sp.setAlpha(opa);
     fill(sp);
     stroke(sp);
-    textSize(20);
+    textSize(displayWidth/128);
     textAlign(RIGHT);
     text(this.name, displayWidth/2-25, this.position+5);
     line(this.min, this.position, this.max, this.position);
@@ -911,7 +911,7 @@ class Button{
       stroke(sp);
       rectMode(CENTER);
       rect(displayWidth/2, this.position, textWidth(this.text)+20, 40);
-      textSize(20);
+      textSize(displayWidth/128);
       textAlign(CENTER);
       fill(this.r-25, this.g-25, this.b-25, opa);
       text(this.text, displayWidth/2, this.position+5);
@@ -924,7 +924,7 @@ class Button{
       rect(displayWidth/2, this.position, textWidth(this.text)+20, 40);
       sp.setAlpha(opa);
       fill(sp);
-      textSize(20);
+      textSize(displayWidth/128);
       textAlign(CENTER);
       text(this.text, displayWidth/2, this.position+5);
     }
@@ -943,7 +943,7 @@ class Button{
     stroke(sp);
     rectMode(CENTER);
     rect(displayWidth/2, this.position, textWidth(this.text)+20, 40);
-    textSize(20);
+    textSize(displayWidth/128);
     textAlign(CENTER);
     fill(this.r-25, this.g-25, this.b-25, opa);
     text(this.text, displayWidth/2, this.position+5);
@@ -1013,7 +1013,7 @@ function instruction1(){
   noStroke();
   textAlign(CENTER);
   fill(255, i1_op);
-  textSize(30);
+  textSize(displayWidth/85);
   text('c l i c k  o n  a n d  d r a g  a  p l a n e t  t o  c h a n g e  i t s  v o l u m e', displayWidth/2, 100);
   if(!dragged){
     i1_op+=1;
@@ -1029,7 +1029,7 @@ function instruction2(){
   noStroke();
   textAlign(CENTER);
   fill(255, i2_op);
-  textSize(30);
+  textSize(displayWidth/85);
   text('d o u b l e - c l i c k  o n  a  p l a n e t  t o  a d j u s t  i t s  s e t t i n g s', displayWidth/2, 100);
   if(!double_clicked){
     i2_op+=1;
@@ -1047,7 +1047,7 @@ function about_text(){
   fill(255, page_op);
   rect(displayWidth/2, displayHeight/2, displayWidth, displayHeight);
   fill(0, about_op);
-  textSize(20);
+  textSize(displayWidth/100);
   textAlign(CENTER);
   textWrap(WORD);
   text("This website is a thesis presented in partial fulfillment of a Master's in Computer Music Composition Degree at the Indiana University Jacobs School of Music. It utilizes Max MSP's RNBO package to generate audio within a web browser. When a geographic location is provided, this site requests astronomical data from Astronomy API based on the time of day and provided geographical coordinates. This data is sent into a RNBO patch that turns on and sets the state of custom instruments according to which planets are currently visible at the provided location. Some of this data varies by location, some by time of day, month, or year, and some even by much longer celestial cycles and distances, such as a planet's distance from Earth. Although this data is technically immutable, most of it is only used to initalize the RNBO instruments. Users are at perfect liberty to modify these intial settings by double-clicking on a planet and experimenting with the provided parameters of its corresponding instrument. Moving a planet up and down changes the volume of its RNBO companion, so that users can isolate and mix collections of instruments according to their tastes. However, despite being subject to the heavens' machinations and users' whims, these instruments run through their own idiosyncratic pitch and rhythmic content independently, so that, once initialized or set, they generate new musical content freely, wandering through permutations and into patterns without any external guidance whatsoever. With so much flexibility and determinism, there are yet parameters and aspects of the instruments that can only be revealed through repeated visits to this site, which will (hopefully) entice users to check back in every once in a while and hear how the planets have changed. In addition to basic HTML, CSS, and Javascript methods, this website also uses p5, a JavaScript library, to generate its graphics and user interface. The source code for all of this website's material, including a Max patch for testing and perusing the RNBO instruments, is available at https://github.com/gitxandert/bodies.", displayWidth/2, displayHeight*2/11, displayWidth-100);
@@ -1055,13 +1055,13 @@ function about_text(){
   if(!corner_clicked){
     if(corner_op_2>0){
       fill(0, corner_op_2);
-      textSize(30);
+      textSize(displayWidth/85);
       textAlign(CENTER);
       text('c l o s e', displayWidth*10/11, displayHeight/11);
       corner_op_2-=corner_inc*5;
     }else{
       fill(255, corner_op_1);
-      textSize(30);
+      textSize(displayWidth/85);
       textAlign(CENTER);
       text('a b o u t', displayWidth*10/11, displayHeight/11);
       if(!focused_on){
@@ -1081,7 +1081,7 @@ function about_text(){
   }else{
     if(corner_op_1>0){
       fill(255, corner_op_1);
-      textSize(30);
+      textSize(displayWidth/85);
       textAlign(CENTER);
       text('a b o u t', displayWidth*10/11, displayHeight/11, displayWidth, displayHeight);
       corner_op_1-=corner_inc*5;
@@ -1090,7 +1090,7 @@ function about_text(){
       }
     }else{
       fill(0, corner_op_2);
-      textSize(30);
+      textSize(displayWidth/85);
       textAlign(CENTER);
       text('c l o s e', displayWidth*10/11, displayHeight/11);
       corner_op_2+=corner_inc*2;
